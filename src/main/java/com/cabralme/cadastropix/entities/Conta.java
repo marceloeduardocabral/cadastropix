@@ -1,6 +1,8 @@
 package com.cabralme.cadastropix.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class Conta implements Serializable {
 	private Integer numeroconta;
 	private Integer numeroagencia;
 	private String tipopessoaconta;
+	
+	@OneToMany(mappedBy = "conta")
+	private List<ChavePix> chavePix = new ArrayList<ChavePix>();
 	
 	public Conta() {		
 	}
@@ -64,6 +70,10 @@ public class Conta implements Serializable {
 	public void setTipopessoaconta(String tipopessoaconta) {
 		this.tipopessoaconta = tipopessoaconta;
 	}
+	
+	public List<ChavePix> getChavePix() {
+		return chavePix;
+	}
 
 	@Override
 	public int hashCode() {
@@ -81,6 +91,8 @@ public class Conta implements Serializable {
 		Conta other = (Conta) obj;
 		return Objects.equals(numeroagencia, other.numeroagencia) && Objects.equals(numeroconta, other.numeroconta);
 	}
+
+	
 
 	
 	
