@@ -14,6 +14,8 @@ import com.cabralme.cadastropix.repositories.ContaRepository;
 import com.cabralme.cadastropix.services.exceptions.DatabaseException;
 import com.cabralme.cadastropix.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ContaService {
 
@@ -44,9 +46,13 @@ public class ContaService {
 	}
 	
 	public Conta update(UUID id, Conta conta) {
-		Conta entity = repository.getReferenceById(id);
-		updateData( entity, conta);
-		return repository.save(entity);
+		try {
+			Conta entity = repository.getReferenceById(id);
+			updateData( entity, conta);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Conta entity, Conta conta) {
